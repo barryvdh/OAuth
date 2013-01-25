@@ -41,7 +41,7 @@ $method = "POST";
 $api_endpoint = 'http://apiyouwanna/call';
 
 //Create and sign the request - 2-Legged so token is null
-$req = Request::createFromConsumerAndToken($consumer, $method, $api_endpoint, null, $parameters);
+$req = Request::createFromConsumerAndToken($consumer, $method, $api_endpoint, null);
 $req->sign($sigMethod, $consumer, null); //Token is still null
 
 $ch = curl_init();
