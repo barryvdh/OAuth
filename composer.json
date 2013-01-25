@@ -1,0 +1,12 @@
+{
+    "name": "joakimkejser/oauth",
+    
+    "require": {
+        "php": ">=5.3",
+        "symfony/http-foundation": "2.1.*"
+    },
+
+    "autoload": {
+        "psr-0": {"JoakimKejser\\OAuth": "src/"}
+    }
+}
