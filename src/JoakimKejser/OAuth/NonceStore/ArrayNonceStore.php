@@ -23,6 +23,8 @@ class ArrayNonceStore implements \JoakimKejser\OAuth\NonceStore
             }
         }
 
+        $this->nonces[$nonce] = array($consumer, $timestamp, $token);
+
         return false;
     }
 }
