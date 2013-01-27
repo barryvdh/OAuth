@@ -9,9 +9,10 @@ class Request
     protected $httpMethod;
     protected $httpUrl;
 
+    public static $version = '1.0';
+
     // for debug purposes
     public $baseString;
-    public static $version = '1.0';
 
     public function __construct($httpMethod, $httpUrl, $parameters = null)
     {
@@ -24,8 +25,13 @@ class Request
 
 
     /**
-    * attempt to build up a request from what was passed to the server
-    */
+     * Attempt to buid a Request from a Symfony Request object
+     * @param  Symfony\Component\HttpFoundation\Request $symfonyRequest
+     * @param  String $httpMethod Override of the HTTP Method
+     * @param  String $httpUrl Override of the HTTP URL
+     * @param  Array  $parameters An array of parameters
+     * @return JoakimKejser\OAuth\Request
+     */
     public static function createFromRequest(SymfonyRequest $symfonyRequest, $httpMethod = null, $httpUrl = null, $parameters = null)
     {
         $httpUrl = ($httpUrl) ? $httpUrl : $symfonyRequest->getSchemeAndHttpHost() . $symfonyRequest->getRequestUri();
@@ -64,7 +70,11 @@ class Request
     }
 
     /**
-     * Create the OAuth Request object from globals
+     * Create the Request object from globals
+     * @param  String $httpMethod Override of the HTTP Method
+     * @param  String $httpUrl    Override of the HTTP Url
+     * @param  Array  $parameters Array of parameters
+     * @return JoakimKejser\OAuth\Request
      */
     public static function createFromGlobals($httpMethod = null, $httpUrl = null, $parameters = null)
     {
@@ -72,8 +82,14 @@ class Request
     }
 
     /**
-    * pretty much a helper function to set up the request
-    */
+     * Creates a Request form consumer and token
+     * @param  JoakimKejser\OAuth\Consumer $consumer
+     * @param  String                      $httpMethod
+     * @param  String                      $httpUrl
+     * @param  JoakimKejser\OAuth\Token    $token
+     * @param  Array                       $parameters
+     * @return JoakimKejser\OAuth\Request
+     */
     public static function createFromConsumerAndToken(Consumer $consumer, $httpMethod, $httpUrl, Token $token = null, $parameters = null)
     {
         $parameters = ($parameters) ?  $parameters : array();
@@ -93,6 +109,12 @@ class Request
         return new Request($httpMethod, $httpUrl, $parameters);
     }
 
+    /**
+     * Sets a parameter on the Request object
+     * @param String  $name
+     * @param mixed   $value
+     * @param boolean $allowDuplicates
+     */
     public function setParameter($name, $value, $allowDuplicates = true)
     {
         if ($allowDuplicates AND isset($this->parameters[$name])) {
@@ -109,16 +131,29 @@ class Request
         }
     }
 
+    /**
+     * Gets a parameters from the Request object
+     * @param  String $name
+     * @return miced
+     */
     public function getParameter($name)
     {
         return isset($this->parameters[$name]) ? $this->parameters[$name] : null;
     }
 
+    /**
+     * Gets all parameters
+     * @return array
+     */
     public function getParameters()
     {
         return $this->parameters;
     }
 
+    /**
+     * Deletes a parameter
+     * @param  String $name [description]
+     */
     public function unsetParameter($name)
     {
         unset($this->parameters[$name]);
@@ -126,7 +161,7 @@ class Request
 
     /**
     * The request parameters, sorted and concatenated into a normalized string.
-    * @return string
+    * @return String
     */
     public function getSignableParameters()
     {
@@ -143,12 +178,14 @@ class Request
     }
 
     /**
-    * Returns the base string of this request
-    *
-    * The base string defined as the method, the url
-    * and the parameters (normalized), each urlencoded
-    * and the concated with &.
-    */
+     * Returns the base string of this request
+     *
+     * The base string defined as the method, the url
+     * and the parameters (normalized), each urlencoded
+     * and the concated with &.
+     * 
+     * @return String
+     */
     public function getSignatureBaseString()
     {
         $parts = array(
@@ -163,17 +200,18 @@ class Request
     }
 
     /**
-    * just uppercases the http method
-    */
+     * Just uppercases the HTML Method
+     * @return String
+     */
     public function getNormalizedHttpMethod()
     {
         return strtoupper($this->httpMethod);
     }
 
     /**
-    * parses the url and rebuilds it to be
-    * scheme://host/path
-    */
+     * Parses the URL and rebuilds it to be scheme://host/path
+     * @return String
+     */
     public function getNormalizedHttpUrl()
     {
         $parts = parse_url($this->httpUrl);
@@ -190,9 +228,12 @@ class Request
         return "$scheme://$host$path";
     }
 
+
     /**
-    * builds a url usable for a GET request
-    */
+     * Build URL for GET request
+     * @param  boolean $noOAuthParameters
+     * @return String
+     */
     public function toUrl($noOAuthParameters = false)
     {
         $postData = $this->toPostdata($noOAuthParameters);
@@ -204,8 +245,9 @@ class Request
     }
 
     /**
-    * builds the data one would send in a POST request
-    * strip the oauth parameters if request for when the authorization header is used
+    * Build the data for a POST request
+    * @param  boolean $noOAuthParameters Whether or not to include OAuth parameters. To use when parameters are passed in the Authorization header.
+    * @return String
     */
     public function toPostData($noOAuthParameters = false)
     {
@@ -222,8 +264,10 @@ class Request
     }
 
     /**
-    * builds the Authorization: header
-    */
+     * Build the Authorization header
+     * @param  String $realm
+     * @return String
+     */
     public function toHeader($realm = null)
     {
         $first = true;
@@ -249,12 +293,21 @@ class Request
         return $out;
     }
 
+    /**
+     * tostring
+     * @return String
+     */
     public function __toString()
     {
         return $this->toUrl();
     }
 
-
+    /**
+     * Function for signing the Request object
+     * @param  JoakimKejser\OAuth\SignatureMethod  $signatureMethod
+     * @param  JoakimKejser\OAuth\Consumer         $consumer
+     * @param  JoakimKejser\OAuth\Token            $token
+     */
     public function sign(SignatureMethod $signatureMethod, Consumer $consumer, Token $token = null)
     {
         $this->setParameter(
@@ -266,28 +319,41 @@ class Request
         $this->setParameter("oauth_signature", $signature, false);
     }
 
+    /**
+     * Builds the actual signature
+     * @param  JoakimKejser\OAuth\SignatureMethod  $signatureMethod
+     * @param  JoakimKejser\OAuth\Consumer         $consumer
+     * @param  JoakimKejser\OAuth\Token            $token
+     * @return String
+     */
     public function buildSignature(SignatureMethod $signatureMethod, Consumer $consumer, Token $token = null)
     {
         $signature = $signatureMethod->buildSignature($this, $consumer, $token);
         return $signature;
     }
 
+    /**
+     * Sets the basestring
+     * @param String $baseString
+     */
     public function setBaseString($baseString)
     {
         $this->baseString = $baseString;
     }
 
     /**
-    * util function: current timestamp
-    */
+     * Utility function: returns current timestamp
+     * @return int
+     */
     private static function generateTimestamp()
     {
         return time();
     }
 
     /**
-    * util function: current nonce
-    */
+     * Utility function: generates the current nonce
+     * @return String
+     */
     private static function generateNonce()
     {
         $mt = microtime();

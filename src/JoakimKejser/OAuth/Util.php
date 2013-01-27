@@ -5,6 +5,11 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class Util
 {
+    /**
+     * URL Encodes according to RFC3986
+     * @param String $input 
+     * @return String
+     */
     public static function urlencodeRfc3986($input)
     {
         if (is_array($input)) {
@@ -20,10 +25,16 @@ class Util
         }
     }
 
-
-    // This decode function isn't taking into consideration the above
-    // modifications to the encoding process. However, this method doesn't
-    // seem to be used anywhere so leaving it as is.
+    /**
+     * Description
+     * 
+     * This decode function isn't taking into consideration the above
+     * modifications to the encoding process. However, this method doesn't
+     * seem to be used anywhere so leaving it as is.
+     * 
+     * @param String $string 
+     * @return String
+     */
     public static function urldecodeRfc3986($string)
     {
         return urldecode($string);
@@ -34,6 +45,18 @@ class Util
     // Can filter out any non-oauth parameters if needed (default behaviour)
     // May 28th, 2010 - method updated to tjerk.meesters for a speed improvement.
     //                  see http://code.google.com/p/oauth/issues/detail?id=163
+
+    /**
+     * Utility function for turning the Authorization: header into parameters
+     * 
+     * Has to do some unescaping too. Can filter out any non-oauth parameters if needed (default behaviour)
+     * May 28th, 2010 - method updated to tjerk.meesters for a speed improvement.
+     * see http://code.google.com/p/oauth/issues/detail?id=163
+     * 
+     * @param String $header Authorization Header
+     * @param boolean $onlyAllowOAuthParameters 
+     * @return array
+     */
     public static function splitHeader($header, $onlyAllowOAuthParameters = true)
     {
         $params = array();
@@ -49,7 +72,11 @@ class Util
         return $params;
     }
 
-    // helper to try to sort out headers for people who aren't running apache
+    /**
+     * Helper to try to sort out headers for people who aren't running apache
+     * @param Symfony\Component\HttpFoundation\Request $request 
+     * @return Array array of headers
+     */
     public static function getHeaders(SymfonyRequest $request)
     {
         if (function_exists('apache_request_headers')) {
@@ -101,9 +128,16 @@ class Util
         return $out;
     }
 
-    // This function takes a input like a=b&a=c&d=e and returns the parsed
-    // parameters like this
-    // array('a' => array('b','c'), 'd' => 'e')
+    /**
+     * Parses a parameter string into an array
+     * 
+     * Takes a input like a=b&a=c&d=e and returns the parsed
+     * parameters like this
+     * array('a' => array('b','c'), 'd' => 'e')
+     * 
+     * @param String $input 
+     * @return Array
+     */
     public static function parseParameters($input)
     {
         if (!isset($input) || !$input) {
@@ -136,7 +170,12 @@ class Util
         return $parsedParameters;
     }
 
-    public static function buildHttpQuery($params)
+    /**
+     * Takes an array of parameters and turn them into a sorted query string
+     * @param  Array  $params
+     * @return String
+     */
+    public static function buildHttpQuery(Array $params)
     {
         if ( ! $params) {
             return '';
