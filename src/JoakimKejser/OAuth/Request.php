@@ -43,7 +43,7 @@ class Request
         // parsed parameter-list
         if ( ! $parameters) {
             // Find request headers
-            $requestHeaders = Util::getHeaders($symfonyRequest, true);
+            $requestHeaders = Util::getHeaders($symfonyRequest);
 
             // Parse the query-string to find GET parameters
             $parameters = Util::parseParameters($symfonyRequest->getQueryString());
