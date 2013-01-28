@@ -10,7 +10,7 @@ abstract class SignatureMethod
 {
     /**
     * Needs to return the name of the Signature Method (ie HMAC-SHA1)
-    * @return string
+    * @return String
     */
     abstract public function getName();
 
@@ -19,20 +19,20 @@ abstract class SignatureMethod
     * NOTE: The output of this function MUST NOT be urlencoded.
     * the encoding is handled in OAuthRequest when the final
     * request is serialized
-    * @param OAuthRequest $request
-    * @param OAuthConsumer $consumer
-    * @param OAuthToken $token
-    * @return string
+    * @param JoakimKejser\OAuth\Request    $request
+    * @param JoakimKejser\OAuth\Consumer   $consumer
+    * @param JoakimKejser\OAuth\Token      $token
+    * @return String
     */
     abstract public function buildSignature(Request $request, Consumer $consumer, Token $token);
 
     /**
     * Verifies that a given signature is correct
-    * @param OAuthRequest $request
-    * @param OAuthConsumer $consumer
-    * @param OAuthToken $token
-    * @param string $signature
-    * @return bool
+    * @param JoakimKejser\OAuth\Request    $request
+    * @param JoakimKejser\OAuth\Consumer   $consumer
+    * @param JoakimKejser\OAuth\Token      $token
+    * @param String $signature
+    * @return boolean
     */
     public function checkSignature($signature, Request $request, Consumer $consumer, Token $token = null)
     {
