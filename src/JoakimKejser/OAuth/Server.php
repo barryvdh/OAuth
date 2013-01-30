@@ -11,6 +11,13 @@ class Server
     protected $nonceStore;
     protected $tokenStore;
 
+    /**
+     * Constructor
+     * @param JoakimKejser\OAuth\Request       $request
+     * @param JoakimKejser\OAuth\ConsumerStore $consumerStore
+     * @param JoakimKejser\OAuth\NonceStore    $nonceStore
+     * @param JoakimKejser\OAuth\TokenStore    $tokenStore
+     */
     public function __construct(Request $request, ConsumerStore $consumerStore, NonceStore $nonceStore, TokenStore $tokenStore = null)
     {
         $this->request = $request;
@@ -19,6 +26,13 @@ class Server
         $this->tokenStore = $tokenStore;
     }
 
+    /**
+     * Adds a signature method to the server object
+     *
+     * Adds the signature method to the supported signature methods
+     * 
+     * @param JoakimKejser\OAuth\SignatureMethod $signatureMethod
+     */
     public function addSignatureMethod(SignatureMethod $signatureMethod)
     {
         $this->signatureMethods[$signatureMethod->getName()] = $signatureMethod;
@@ -201,17 +215,13 @@ class Server
     private function checkTimestamp($timestamp)
     {
         if ( ! $timestamp ) {
-            throw new Exception\TimestampMissing(
-                'Missing timestamp parameter. The parameter is required'
-            );
+            throw new Exception\TimestampMissing();
         }
 
         // verify that timestamp is recentish
         $now = time();
         if (abs($now - $timestamp) > $this->timestampThreshold) {
-            throw new Exception\TimestampExpired(
-                "Expired timestamp, yours $timestamp, ours $now"
-            );
+            throw new Exception\TimestampExpired();
         }
     }
 
