@@ -149,7 +149,7 @@ class Server
             throw new Exception\ConsumerKeyMissing();
         }
 
-        $consumer = $this->consumerStore->get($consumerKey);
+        $consumer = $this->consumerStore->getConsumer($consumerKey);
         if ( ! $consumer) {
             throw new Exception\InvalidConsumer();
         }
