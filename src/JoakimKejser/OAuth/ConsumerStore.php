@@ -3,5 +3,5 @@ namespace JoakimKejser\OAuth;
 
 interface ConsumerStore
 {
-    public function get($publicKey);
+    public function getConsumer($publicKey);
 }

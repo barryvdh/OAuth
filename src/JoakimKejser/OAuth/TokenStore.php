@@ -3,7 +3,7 @@ namespace JoakimKejser\OAuth;
 
 interface TokenStore
 {
-    public function get(Consumer $consumer, $tokenType, $tokenField);
+    public function getToken(Consumer $consumer, $tokenType, $tokenField);
 
     public function newRequestToken(Consumer $consumer, $callback = null);
 
