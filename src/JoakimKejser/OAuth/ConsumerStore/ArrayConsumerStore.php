@@ -12,7 +12,7 @@ class ArrayConsumerStore implements \JoakimKejser\OAuth\ConsumerStore
         $this->consumers = $consumers;
     }
 
-    public function get($publicKey)
+    public function getConsumer($publicKey)
     {
         if (array_key_exists($publicKey, $this->consumers)) {
             return new Consumer($publicKey, $this->consumers[$publicKey]);
