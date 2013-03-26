@@ -168,7 +168,7 @@ class Server
 
         $tokenField = $this->request->getParameter('oauth_token');
 
-        $token = $this->tokenStore->get(
+        $token = $this->tokenStore->getToken(
             $consumer,
             $tokenType,
             $tokenField
