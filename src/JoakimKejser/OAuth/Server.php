@@ -59,7 +59,7 @@ class Server
         $callback = $this->request->getParameter('oauth_callback');
         $newToken = $this->tokenStore->newRequestToken($consumer, $callback);
 
-        return $newToken;
+        return $newToken . "&oauth_callback_confirmed=true";
     }
 
     /**
