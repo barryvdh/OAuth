@@ -175,7 +175,7 @@ class Server
         );
 
         if ( ! $token) {
-            throw new Exception\InvalidToken("Invalid $token_type token: $token_field");
+            throw new Exception\InvalidToken("Invalid $tokenType token: $tokenField");
         }
 
         return $token;
