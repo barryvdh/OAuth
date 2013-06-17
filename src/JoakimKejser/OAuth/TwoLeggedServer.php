@@ -14,8 +14,6 @@ class TwoLeggedServer extends Server
 
     public function __construct(Request $request, ConsumerStore $consumerStore, NonceStore $nonceStore)
     {
-        $this->symfonyRequest = $symfonyRequest;
-
         $this->consumerStore = $consumerStore;
 
         $this->nonceStore = $nonceStore;
