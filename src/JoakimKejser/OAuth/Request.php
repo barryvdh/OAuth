@@ -26,7 +26,7 @@ class Request
 
     /**
      * Attempt to buid a Request from a Symfony Request object
-     * @param  Symfony\Component\HttpFoundation\Request $symfonyRequest
+     * @param  \Symfony\Component\HttpFoundation\Request $symfonyRequest
      * @param  String $httpMethod Override of the HTTP Method
      * @param  String $httpUrl Override of the HTTP URL
      * @param  Array  $parameters An array of parameters

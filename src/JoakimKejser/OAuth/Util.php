@@ -74,7 +74,7 @@ class Util
 
     /**
      * Helper to try to sort out headers for people who aren't running apache
-     * @param Symfony\Component\HttpFoundation\Request $request 
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Array array of headers
      */
     public static function getHeaders(SymfonyRequest $request)
