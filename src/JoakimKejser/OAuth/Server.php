@@ -131,7 +131,7 @@ class Server
 
         if ( ! in_array($signatureMethod, array_keys($this->signatureMethods))) {
             throw new Exception\SignatureMethodNotSupported(
-                "Signature method '$signature_method' not supported, try one of the following: " .
+                "Signature method '$signatureMethod' not supported, try one of the following: " .
                 implode(", ", array_keys($this->signatureMethods))
             );
         }
