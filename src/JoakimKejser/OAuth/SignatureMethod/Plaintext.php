@@ -15,7 +15,7 @@ use Joakimkejser\OAuth\Util;
  */
 class Plaintext extends SignatureMethod
 {
-    public function getGame()
+    public function getName()
     {
         return "PLAINTEXT";
     }
@@ -36,7 +36,7 @@ class Plaintext extends SignatureMethod
             ($token) ? $token->secret : ""
         );
 
-        $keyParts = Util::urlencodeRfc3986($key_parts);
+        $keyParts = Util::urlencodeRfc3986($keyParts);
         $key = implode('&', $keyParts);
         $request->setBaseString($key);
 
