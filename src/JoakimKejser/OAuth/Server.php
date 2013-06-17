@@ -13,10 +13,10 @@ class Server
 
     /**
      * Constructor
-     * @param JoakimKejser\OAuth\Request       $request
-     * @param JoakimKejser\OAuth\ConsumerStore $consumerStore
-     * @param JoakimKejser\OAuth\NonceStore    $nonceStore
-     * @param JoakimKejser\OAuth\TokenStore    $tokenStore
+     * @param Request       $request
+     * @param ConsumerStore $consumerStore
+     * @param NonceStore    $nonceStore
+     * @param TokenStore    $tokenStore
      */
     public function __construct(Request $request, ConsumerStore $consumerStore, NonceStore $nonceStore, TokenStore $tokenStore = null)
     {
@@ -31,7 +31,7 @@ class Server
      *
      * Adds the signature method to the supported signature methods
      * 
-     * @param JoakimKejser\OAuth\SignatureMethod $signatureMethod
+     * @param SignatureMethod $signatureMethod
      */
     public function addSignatureMethod(SignatureMethod $signatureMethod)
     {

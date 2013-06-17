@@ -30,7 +30,7 @@ class Request
      * @param  String $httpMethod Override of the HTTP Method
      * @param  String $httpUrl Override of the HTTP URL
      * @param  Array  $parameters An array of parameters
-     * @return JoakimKejser\OAuth\Request
+     * @return Request
      */
     public static function createFromRequest(SymfonyRequest $symfonyRequest, $httpMethod = null, $httpUrl = null, $parameters = null)
     {
@@ -74,7 +74,7 @@ class Request
      * @param  String $httpMethod Override of the HTTP Method
      * @param  String $httpUrl    Override of the HTTP Url
      * @param  Array  $parameters Array of parameters
-     * @return JoakimKejser\OAuth\Request
+     * @return Request
      */
     public static function createFromGlobals($httpMethod = null, $httpUrl = null, $parameters = null)
     {
@@ -83,12 +83,12 @@ class Request
 
     /**
      * Creates a Request form consumer and token
-     * @param  JoakimKejser\OAuth\Consumer $consumer
+     * @param  Consumer $consumer
      * @param  String                      $httpMethod
      * @param  String                      $httpUrl
-     * @param  JoakimKejser\OAuth\Token    $token
+     * @param  Token    $token
      * @param  Array                       $parameters
-     * @return JoakimKejser\OAuth\Request
+     * @return Request
      */
     public static function createFromConsumerAndToken(Consumer $consumer, $httpMethod, $httpUrl, Token $token = null, $parameters = null)
     {
@@ -304,9 +304,9 @@ class Request
 
     /**
      * Function for signing the Request object
-     * @param  JoakimKejser\OAuth\SignatureMethod  $signatureMethod
-     * @param  JoakimKejser\OAuth\Consumer         $consumer
-     * @param  JoakimKejser\OAuth\Token            $token
+     * @param  SignatureMethod  $signatureMethod
+     * @param  Consumer         $consumer
+     * @param  Token            $token
      */
     public function sign(SignatureMethod $signatureMethod, Consumer $consumer, Token $token = null)
     {
@@ -321,9 +321,9 @@ class Request
 
     /**
      * Builds the actual signature
-     * @param  JoakimKejser\OAuth\SignatureMethod  $signatureMethod
-     * @param  JoakimKejser\OAuth\Consumer         $consumer
-     * @param  JoakimKejser\OAuth\Token            $token
+     * @param  SignatureMethod  $signatureMethod
+     * @param  Consumer         $consumer
+     * @param  Token            $token
      * @return String
      */
     public function buildSignature(SignatureMethod $signatureMethod, Consumer $consumer, Token $token = null)
